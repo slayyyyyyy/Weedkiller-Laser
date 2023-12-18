@@ -61,7 +61,7 @@ unsigned long previousBulletBlinkMillis = 0;
 enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
 Direction lastDirection = NONE;
 
-enum Menu { START_GAME, SETTINGS, ABOUT};
+enum Menu { START_GAME, SETTINGS, HOW_TO_PLAY, ABOUT};
 Menu currentMenu = START_GAME;
 bool insideMenuOption = false;
 
@@ -74,7 +74,7 @@ int submenuOptionNumber = 3;
 const char gameName[] = "Weedkiller Laser";
 const char creatorGithub[] = "slayyyyyyy";
 const char creatorName[] = "Andreea Gurzu";
-const char* menuNames[] = {"Start Game", "Settings", "About"};
+const char* menuNames[] = {"Start Game", "Settings","How to play", "About"};
 const char* submenuNames[] = {"LCD Brightness", "Back", "Game Brightness"};
 int displayDuration = 3000;
 
@@ -307,6 +307,10 @@ void navigateMainMenu(){
         if(insideSubmenu == true){
         navigateSettingsMenu();
         }
+        break;
+      case HOW_TO_PLAY:
+        displayHowToPlay();
+        navigateMainMenu();
         break;
     }
   }
@@ -627,6 +631,49 @@ void displayAbout(const char *gameName, const char *creatorName, const char *cre
 
 
    while (displayActive) {
+    unsigned long currentTime = millis();
+    if (currentTime - startTime >= displayDuration) {
+      displayActive = false;
+      lcd.clear(); 
+      lcd.print(menuNames[currentMenu]);
+    }
+  }
+}
+
+void displayHowToPlay() {
+  unsigned long startTime = millis();
+  bool displayActive = true;
+  lcd.setCursor(0, 0);
+
+  // Print the message:
+  lcd.print("Move up, down,");
+  lcd.setCursor(0, 1);
+  lcd.print("left, right with");
+  delay(2000); 
+
+  lcd.clear();
+
+  lcd.setCursor(0, 0);
+  lcd.print("the joystick.");
+  lcd.setCursor(0, 1);
+  lcd.print("Shoot a laser");
+  delay(2000);
+
+  lcd.clear();
+
+  lcd.setCursor(0, 0);
+  lcd.print("bullet with the");
+  lcd.setCursor(0, 1);
+  lcd.print("button to wipe");
+  delay(2000);
+
+  lcd.clear();
+
+  lcd.setCursor(0, 0);
+  lcd.print("out the weeds.");
+  delay(2000);
+
+  while (displayActive) {
     unsigned long currentTime = millis();
     if (currentTime - startTime >= displayDuration) {
       displayActive = false;
