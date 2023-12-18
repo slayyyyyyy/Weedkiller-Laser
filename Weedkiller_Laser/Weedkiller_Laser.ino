@@ -140,6 +140,28 @@ const byte fifthLevel[mapSize][mapSize] = {
 int level = 1;
 unsigned long gameStartTime = 0;
 
+byte arrowUp[] = {
+  B00100,
+  B01010,
+  B10001,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000
+};
+
+byte arrowDown[] = {
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B10001,
+  B01010,
+  B00100
+};
+
 void generateLevelMap(byte generatedMap[mapSize][mapSize], int level) {
   /* depending on the level, this functions assigns and generate the map for each level*/
   const byte* selectedLevel = nullptr;
@@ -189,10 +211,15 @@ void setup() {
 
   lcd.begin(16,2);
   analogWrite(pwm,EEPROM.get(0,brightness));
-
+  lcd.createChar(2, arrowUp);
+  lcd.createChar(3, arrowDown);
 
   displayGreeting(gameName);
   lcd.print(menuNames[currentMenu]);
+  lcd.setCursor(15, 0);
+  lcd.write(2);
+  lcd.setCursor(15, 1);
+  lcd.write(3);
 }
 
 void loop() {
@@ -304,6 +331,10 @@ void navigateMainMenu(){
         insideSubmenu = true;
         lcd.clear();
         lcd.print(submenuNames[currentSubmenu]);
+        lcd.setCursor(15, 0);
+        lcd.write(2);
+        lcd.setCursor(15, 1);
+        lcd.write(3);
         if(insideSubmenu == true){
         navigateSettingsMenu();
         }
@@ -320,12 +351,20 @@ void navigateMainMenu(){
       currentMenu = (currentMenu == START_GAME) ? ABOUT : (Menu)(currentMenu - 1);
       lcd.setCursor(0, 0);
       lcd.print(menuNames[currentMenu]);
+      lcd.setCursor(15, 0);
+      lcd.write(2);
+      lcd.setCursor(15, 1);
+      lcd.write(3);
       delay(250); 
   } else if (yValue > maxThreshold) { //moving down
       lcd.clear();
       currentMenu = (currentMenu == ABOUT) ? START_GAME : (Menu)(currentMenu + 1);
       lcd.setCursor(0, 0);
       lcd.print(menuNames[currentMenu]);
+      lcd.setCursor(15, 0);
+      lcd.write(2);
+      lcd.setCursor(15, 1);
+      lcd.write(3);
       delay(250);
   }
 
@@ -357,6 +396,10 @@ void navigateSettingsMenu() {
             setLCDBrightness();
             lcd.clear();
             lcd.print(submenuNames[currentMenu]);
+            lcd.setCursor(15, 0);
+            lcd.write(2);
+            lcd.setCursor(15, 1);
+            lcd.write(3);
           }
           break;
         case MATRIX_BRIGHTNESS:
@@ -365,6 +408,10 @@ void navigateSettingsMenu() {
             setMatrixBrightness();
             lcd.clear();
             lcd.print(submenuNames[currentMenu]);
+            lcd.setCursor(15, 0);
+            lcd.write(2);
+            lcd.setCursor(15, 1);
+            lcd.write(3);
           }
           break;
         case BACK:
@@ -374,6 +421,10 @@ void navigateSettingsMenu() {
             currentMenu = START_GAME;
             lcd.clear();
             lcd.print(menuNames[currentMenu]);
+            lcd.setCursor(15, 0);
+            lcd.write(2);
+            lcd.setCursor(15, 1);
+            lcd.write(3);
           }
           break;
       
@@ -383,12 +434,20 @@ void navigateSettingsMenu() {
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print(submenuNames[currentSubmenu]);
+      lcd.setCursor(15, 0);
+      lcd.write(2);
+      lcd.setCursor(15, 1);
+      lcd.write(3);
       delay(250); 
     } else if (yValue > maxThreshold) { // moving down
       currentSubmenu = (currentSubmenu - 1 + submenuOptionNumber) % submenuOptionNumber;
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print(submenuNames[currentSubmenu]);
+      lcd.setCursor(15, 0);
+      lcd.write(2);
+      lcd.setCursor(15, 1);
+      lcd.write(3);
       delay(250); 
     }
   }
