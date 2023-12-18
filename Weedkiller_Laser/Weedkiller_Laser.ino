@@ -65,17 +65,17 @@ enum Menu { START_GAME, SETTINGS, ABOUT};
 Menu currentMenu = START_GAME;
 bool insideMenuOption = false;
 
-enum Submenu { LCD_BRIGHTNESS, MATRIX_BRIGHTNESS};
+enum Submenu { LCD_BRIGHTNESS, BACK, MATRIX_BRIGHTNESS};
 Submenu currentSubmenu = LCD_BRIGHTNESS;
 bool insideSubmenu = false;
-int submenuOptionNumber = 2;
+int submenuOptionNumber = 3;
 
 
 const char gameName[] = "Weedkiller Laser";
 const char creatorGithub[] = "slayyyyyyy";
 const char creatorName[] = "Andreea Gurzu";
 const char* menuNames[] = {"Start Game", "Settings", "About"};
-const char* submenuNames[] = {"LCD Brightness", "Game Brightness"};
+const char* submenuNames[] = {"LCD Brightness", "Back", "Game Brightness"};
 int displayDuration = 3000;
 
 int lastDebounceTime = 0;
@@ -309,7 +309,6 @@ void navigateMainMenu(){
         }
         break;
     }
-    delay(250);
   }
   else {
     if (yValue < minThreshold) { //moving up
@@ -352,17 +351,29 @@ void navigateSettingsMenu() {
           if (buttonWasPressed()) {
             insideMenuOption = true;
             setLCDBrightness();
+            lcd.clear();
+            lcd.print(submenuNames[currentMenu]);
           }
           break;
         case MATRIX_BRIGHTNESS:
           if (buttonWasPressed()) {
             insideMenuOption = true;
             setMatrixBrightness();
+            lcd.clear();
+            lcd.print(submenuNames[currentMenu]);
+          }
+          break;
+        case BACK:
+          if (buttonWasPressed()) {
+            insideSubmenu = false;
+            navigateMainMenu();
+            currentMenu = START_GAME;
+            lcd.clear();
+            lcd.print(menuNames[currentMenu]);
           }
           break;
       
     }
-    delay(250);
     if (yValue < minThreshold) { // moving up
       currentSubmenu = (currentSubmenu + 1) % submenuOptionNumber;
       lcd.clear();
