@@ -620,7 +620,7 @@ void displayAbout(const char *gameName, const char *creatorName, const char *cre
   delay(1500);
   lcd.clear();
 
-  int githubPosition = (16 - strlen("Github:")) / 2;
+  int githubPosition = (16 - strlen("Github user:")) / 2;
   lcd.setCursor(githubPosition, 0); 
   lcd.print("Github:"); 
   int githubUserPosition = (16 - strlen(creatorGithub)) / 2;
