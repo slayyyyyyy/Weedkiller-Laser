@@ -23,6 +23,6 @@ Considering how this project was made for my robotics course, there were some re
 - Must make sense with the setup. </br>
 - Must have a difficulty increase. </br>
 
-Aside from these, there are obviously the other requirements, regarding a clean coding style. As of now, I am aware of a few slip ups inside this code, such as the use of delays and magic numbers.
+Aside from these, there are obviously the other requirements, regarding a clean coding style and the documentation. As of now, I am aware of a few slip ups inside this code, such as the use of delays and magic numbers.
 
 You can find photos of the setup inside the "Setup pics" directory, and the demo on how it works on here : (insert link)
