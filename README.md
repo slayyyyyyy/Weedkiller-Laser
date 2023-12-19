@@ -30,4 +30,4 @@ You can find photos of the setup inside the "Setup pics" directory, and the demo
 ## Bugs
 
 - Most known bugs are caused by the noise from the ton of wires on the boards. (especially the LCD ones)
-- ~~ Not really a bug but ~~ the code could be cleaned up a bit because it gets very repetitive at times. (for example, the code for writing the arrow characters is in a ton of places when it could be very easily put inside a function)
+- <del>Not really a bug but</del> the code could be cleaned up a bit because it gets very repetitive at times. (for example, the code for writing the arrow characters is in a ton of places when it could be very easily put inside a function)
