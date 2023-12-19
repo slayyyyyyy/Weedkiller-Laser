@@ -74,6 +74,10 @@ int submenuOptionNumber = 4;
 
 const int scrollFrequency = 500;
 const int clickFrequency = 1000;
+const int levelEndedFrequency = 1500;
+const int levelEndedSoundDuration = 500;
+const int gameEndedSoundDuration = 1000;
+const int gameEndedFrequency = 3500;
 bool toggleOn = true;
 
 const char gameName[] = "Weedkiller Laser";
@@ -314,6 +318,9 @@ void gameLogic(){
   }
 
   if(checkLevelEnded()){
+     if(toggleOn){
+      tone(soundPin, levelEndedFrequency, levelEndedSoundDuration);
+    }
     level++;
     generateLevelMap(gameMap, level);
   }
@@ -678,6 +685,9 @@ bool checkGameEnded(int level) {
   }
   // check if all LEDs are off and the level has reached 5
   if (allLEDsOff && level >= 5) {
+    if(toggleOn){
+      tone(soundPin, gameEndedFrequency, gameEndedSoundDuration);
+    }
     return true; // game ended
   } else {
     return false; 
