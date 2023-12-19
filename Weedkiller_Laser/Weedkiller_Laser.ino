@@ -6,9 +6,9 @@ const byte rs = 9;
 const byte en = 8;
 const byte d4 = 7;
 const byte d5 = 6;
-const byte d6 = 5;
+const byte d6 = 3;
 const byte d7 = 4;
-const byte pwm = 3;
+const byte pwm = 5;
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 int brightness = 100;
@@ -19,9 +19,9 @@ const int loadPin = 10;
 
 const int xPin = A0;
 const int yPin = A1;
-const int swPin = 2;
+const int swPin = A3;
 
-const int soundPin = A4;
+const int soundPin = A5;
 
 LedControl lc = LedControl(dinPin, clockPin, loadPin, 1); 
 byte matrixBrightness = 8;
@@ -72,6 +72,8 @@ Submenu currentSubmenu = LCD_BRIGHTNESS;
 bool insideSubmenu = false;
 int submenuOptionNumber = 3;
 
+const int scrollFrequency = 500;
+const int clickFrequency = 1000;
 
 const char gameName[] = "Weedkiller Laser";
 const char creatorGithub[] = "slayyyyyyy";
@@ -343,6 +345,7 @@ void navigateMainMenu(){
   gameStartTime = millis();
   int yValue = analogRead(yPin);
   if(buttonWasPressed()){
+    clickBeep();
     switch(currentMenu){
       case START_GAME:
         gameMap[xPos][yPos] = 1; // lights up the initial player position
@@ -382,6 +385,7 @@ void navigateMainMenu(){
   }
   else {
     if (yValue < minThreshold) { //moving up
+      scrollBeep();
       lcd.clear();
       currentMenu = (currentMenu == START_GAME) ? ABOUT : (Menu)(currentMenu - 1);
       lcd.setCursor(0, 0);
@@ -392,6 +396,7 @@ void navigateMainMenu(){
       lcd.write(3);
       delay(250); 
   } else if (yValue > maxThreshold) { //moving down
+      scrollBeep();
       lcd.clear();
       currentMenu = (currentMenu == ABOUT) ? START_GAME : (Menu)(currentMenu + 1);
       lcd.setCursor(0, 0);
@@ -426,6 +431,7 @@ void navigateSettingsMenu() {
       switch (currentSubmenu) {
         case LCD_BRIGHTNESS:
           if (buttonWasPressed()) {
+            clickBeep();
             insideMenuOption = true;
             setLCDBrightness();
             lcd.clear();
@@ -438,6 +444,7 @@ void navigateSettingsMenu() {
           break;
         case MATRIX_BRIGHTNESS:
           if (buttonWasPressed()) {
+            clickBeep();
             insideMenuOption = true;
             setMatrixBrightness();
             lcd.clear();
@@ -450,6 +457,7 @@ void navigateSettingsMenu() {
           break;
         case BACK:
           if (buttonWasPressed()) {
+            clickBeep();
             insideSubmenu = false;
             navigateMainMenu();
             currentMenu = START_GAME;
@@ -464,6 +472,7 @@ void navigateSettingsMenu() {
       
     }
     if (yValue < minThreshold) { // moving up
+      scrollBeep();
       currentSubmenu = (currentSubmenu + 1) % submenuOptionNumber;
       lcd.clear();
       lcd.setCursor(0, 0);
@@ -474,6 +483,7 @@ void navigateSettingsMenu() {
       lcd.write(3);
       delay(250); 
     } else if (yValue > maxThreshold) { // moving down
+      scrollBeep();
       currentSubmenu = (currentSubmenu - 1 + submenuOptionNumber) % submenuOptionNumber;
       lcd.clear();
       lcd.setCursor(0, 0);
@@ -645,12 +655,12 @@ bool checkGameEnded(int level) {
 void displayGameEndedMessage() {
   //displays a message informing the player the game ended; needs a button press to return to main menu
   lcd.clear();
-  int congratsPosition = (16 - strlen("Congrats, you")) / 2;
+  int congratsPosition = (16 - strlen("Hurray, gardener,")) / 2;
   lcd.setCursor(congratsPosition, 0);
-  lcd.print("Congrats, you");
-  int gameBeatenPosition = (16 - strlen("beat the game!")) / 2;
+  lcd.print("Hurray, gardener,");
+  int gameBeatenPosition = (16 - strlen("keep yo biz!")) / 2;
   lcd.setCursor(gameBeatenPosition, 1);
-  lcd.print("beat the game!");
+  lcd.print("keep yo biz!");
 
   bool returnToMenu = false;
 
@@ -925,4 +935,16 @@ void setMatrixBrightness() {
   }
     lcd.noCursor();
     setMatrixState(0);
+}
+
+void scrollBeep() {
+  tone(soundPin, scrollFrequency); 
+  delay(250); 
+  noTone(soundPin); 
+}
+
+void clickBeep() {
+  tone(soundPin, clickFrequency); 
+  delay(250); 
+  noTone(soundPin); 
 }
