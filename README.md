@@ -25,7 +25,7 @@ Considering how this project was made for my robotics course, there were some re
 
 Aside from these, there are obviously the other requirements, regarding a clean coding style and the documentation. As of now, I am aware of a few slip ups inside this code, such as the use of delays and magic numbers.
 
-You can find photos of the setup inside the "Setup pics" directory, and the demo on how it works on here : (insert link)
+You can find photos of the setup inside the "Setup pics" directory, and the demo on how it works on here : [Weedkiller Laser DEMO](https://drive.google.com/drive/folders/13Ypw1u6UHbPfMJ6c0OiOcpmmYoVhXjAe)
 
 ## Bugs
 
