@@ -67,19 +67,20 @@ enum Menu { START_GAME, SETTINGS, HOW_TO_PLAY, ABOUT};
 Menu currentMenu = START_GAME;
 bool insideMenuOption = false;
 
-enum Submenu { LCD_BRIGHTNESS, BACK, MATRIX_BRIGHTNESS};
+enum Submenu { LCD_BRIGHTNESS, BACK, TOGGLE_SOUND, MATRIX_BRIGHTNESS};
 Submenu currentSubmenu = LCD_BRIGHTNESS;
 bool insideSubmenu = false;
-int submenuOptionNumber = 3;
+int submenuOptionNumber = 4;
 
 const int scrollFrequency = 500;
 const int clickFrequency = 1000;
+bool toggleOn = true;
 
 const char gameName[] = "Weedkiller Laser";
 const char creatorGithub[] = "slayyyyyyy";
 const char creatorName[] = "Andreea Gurzu";
 const char* menuNames[] = {"Start Game", "Settings","How to play", "About"};
-const char* submenuNames[] = {"LCD Brightness", "Back", "Game Brightness"};
+const char* submenuNames[] = {"LCD Brightness", "Back", "Toggle Sound", "Game Brightness"};
 int displayDuration = 3000;
 
 int lastDebounceTime = 0;
@@ -268,7 +269,7 @@ void printTimeAndLevel(){
     lcd.setCursor(strlen("Time:"), 0);
     lcd.print((millis() - gameStartTime) / 1000);
     lcd.setCursor(0,1);
-    lcd.print("Level:");
+    lcd.print("Garden:");
     lcd.setCursor(strlen("Level:"), 1);
     lcd.print(level);
 }
@@ -345,7 +346,9 @@ void navigateMainMenu(){
   gameStartTime = millis();
   int yValue = analogRead(yPin);
   if(buttonWasPressed()){
+    if(toggleOn){
     clickBeep();
+    }
     switch(currentMenu){
       case START_GAME:
         gameMap[xPos][yPos] = 1; // lights up the initial player position
@@ -385,7 +388,9 @@ void navigateMainMenu(){
   }
   else {
     if (yValue < minThreshold) { //moving up
-      scrollBeep();
+      if(toggleOn){
+        scrollBeep();
+      }
       lcd.clear();
       currentMenu = (currentMenu == START_GAME) ? ABOUT : (Menu)(currentMenu - 1);
       lcd.setCursor(0, 0);
@@ -396,7 +401,9 @@ void navigateMainMenu(){
       lcd.write(3);
       delay(250); 
   } else if (yValue > maxThreshold) { //moving down
-      scrollBeep();
+      if(toggleOn){
+        scrollBeep();
+      }
       lcd.clear();
       currentMenu = (currentMenu == ABOUT) ? START_GAME : (Menu)(currentMenu + 1);
       lcd.setCursor(0, 0);
@@ -431,7 +438,9 @@ void navigateSettingsMenu() {
       switch (currentSubmenu) {
         case LCD_BRIGHTNESS:
           if (buttonWasPressed()) {
-            clickBeep();
+            if(toggleOn){
+              clickBeep();
+            }
             insideMenuOption = true;
             setLCDBrightness();
             lcd.clear();
@@ -444,7 +453,9 @@ void navigateSettingsMenu() {
           break;
         case MATRIX_BRIGHTNESS:
           if (buttonWasPressed()) {
-            clickBeep();
+            if(toggleOn){
+              clickBeep();
+            }
             insideMenuOption = true;
             setMatrixBrightness();
             lcd.clear();
@@ -455,9 +466,26 @@ void navigateSettingsMenu() {
             lcd.write(3);
           }
           break;
+        case TOGGLE_SOUND:
+          if (buttonWasPressed()) {
+            if(toggleOn){
+              clickBeep();
+            }
+            insideMenuOption = true;
+            toggleSound();
+            lcd.clear();
+            lcd.print(submenuNames[currentMenu]);
+            lcd.setCursor(15, 0);
+            lcd.write(2);
+            lcd.setCursor(15, 1);
+            lcd.write(3);
+          }
+          break;
         case BACK:
           if (buttonWasPressed()) {
-            clickBeep();
+            if(toggleOn){
+              clickBeep();
+            }
             insideSubmenu = false;
             navigateMainMenu();
             currentMenu = START_GAME;
@@ -472,7 +500,9 @@ void navigateSettingsMenu() {
       
     }
     if (yValue < minThreshold) { // moving up
-      scrollBeep();
+      if(toggleOn){
+        scrollBeep();
+      }
       currentSubmenu = (currentSubmenu + 1) % submenuOptionNumber;
       lcd.clear();
       lcd.setCursor(0, 0);
@@ -483,7 +513,9 @@ void navigateSettingsMenu() {
       lcd.write(3);
       delay(250); 
     } else if (yValue > maxThreshold) { // moving down
-      scrollBeep();
+      if(toggleOn){
+        scrollBeep();
+      }
       currentSubmenu = (currentSubmenu - 1 + submenuOptionNumber) % submenuOptionNumber;
       lcd.clear();
       lcd.setCursor(0, 0);
@@ -787,8 +819,6 @@ void displayHowToPlay() {
   }
 }
 
-
-
 int loadLCDBrightnessFromEEPROM() {
   int storedBrightness = EEPROM.get(0, brightness);
   return storedBrightness;
@@ -935,6 +965,50 @@ void setMatrixBrightness() {
   }
     lcd.noCursor();
     setMatrixState(0);
+}
+
+void toggleSound() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Toggle sound off?");
+  lcd.setCursor((16 - strlen("Y    N")) / 2, 1);
+  lcd.print("Y    N");
+  lcd.setCursor(0, 1);
+  lcd.write(4);
+  lcd.setCursor(15, 1);
+  lcd.write(5);
+
+  bool toggled = false;
+  int index = (16 - strlen("Y   N")) / 2;
+  lcd.setCursor(index, 1);
+  lcd.cursor(); 
+
+  while (!toggled) {
+    int xValue = analogRead(xPin);
+    if (xValue < minThreshold && index < 11) {
+      lcd.setCursor(index + 5, 1);
+      index += 5;
+    } else if (xValue > maxThreshold && index > 8) {
+      lcd.setCursor(index - 5, 1);
+      index -= 5;
+    }
+
+    if (buttonWasPressed()) {
+      switch (index) {
+        case (16 - strlen("Y   N")) / 2:
+          toggleOn = false;
+          toggled = true;
+          break;
+        case ((16 - strlen("Y   N")) / 2) + 5:
+          toggleOn = true;
+          toggled = true;
+        default:
+          break;
+      }
+    }
+    delay(250);
+  }
+  lcd.noCursor(); // hide the cursor after selection
 }
 
 void scrollBeep() {
