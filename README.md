@@ -18,7 +18,7 @@ The menu of the game is navigated with a joystick. It contains the options to st
 
 Considering how this project was made for my robotics course, there were some requirements to meet for the aimed grade: </br>
 - <b>Minimal components</b>: LCD, Matrix, Joystick, Buzzer and of course, wires, capacitors and the Arduino Board. </br>
-- Sounds when playing the game. (didn't implement as of now) </br>
+- Sounds when playing the game. (implemented for level ending and game ending) </br>
 - Intuitive and fun to play. </br>
 - Must make sense with the setup. </br>
 - Must have a difficulty increase. </br>
