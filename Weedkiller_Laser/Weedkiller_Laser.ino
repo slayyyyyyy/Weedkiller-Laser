@@ -833,11 +833,6 @@ void displayHowToPlay() {
   }
 }
 
-int loadLCDBrightnessFromEEPROM() {
-  int storedBrightness = EEPROM.get(0, brightness);
-  return storedBrightness;
-}
-
 void saveLCDBrightnessToEEPROM(int value) {
   EEPROM.put(0, value);
 }
@@ -903,13 +898,6 @@ void setLCDBrightness() {
     delay(250);
   }
   lcd.noCursor(); // hide the cursor after selection
-}
-
-
-int loadMatrixBrightnessFromEEPROM() {
-  int storedMatrixBrightness;
-  EEPROM.get(10, storedMatrixBrightness); 
-  return storedMatrixBrightness;
 }
 
 void saveMatrixBrightnessToEEPROM(int value) {
