@@ -324,6 +324,10 @@ void navigateMainMenu(){
         break;
       case ABOUT:
         displayAbout(gameName, creatorName, creatorGithub);
+        lcd.setCursor(15, 0);
+        lcd.write(2);
+        lcd.setCursor(15, 1);
+        lcd.write(3);
         navigateMainMenu();
         break;
       case SETTINGS:
@@ -341,6 +345,10 @@ void navigateMainMenu(){
         break;
       case HOW_TO_PLAY:
         displayHowToPlay();
+        lcd.setCursor(15, 0);
+        lcd.write(2);
+        lcd.setCursor(15, 1);
+        lcd.write(3);
         navigateMainMenu();
         break;
     }
@@ -681,7 +689,7 @@ void displayAbout(const char *gameName, const char *creatorName, const char *cre
 
   int githubPosition = (16 - strlen("Github user:")) / 2;
   lcd.setCursor(githubPosition, 0); 
-  lcd.print("Github:"); 
+  lcd.print("Github user:"); 
   int githubUserPosition = (16 - strlen(creatorGithub)) / 2;
   lcd.setCursor(githubUserPosition, 1);
   lcd.print(creatorGithub);
@@ -703,6 +711,7 @@ void displayHowToPlay() {
   unsigned long startTime = millis();
   bool displayActive = true;
   lcd.setCursor(0, 0);
+  lcd.clear();
 
   // Print the message:
   lcd.print("Move up, down,");
