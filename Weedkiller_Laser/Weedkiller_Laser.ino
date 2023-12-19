@@ -451,7 +451,7 @@ void navigateSettingsMenu() {
             insideMenuOption = true;
             setLCDBrightness();
             lcd.clear();
-            lcd.print(submenuNames[currentMenu]);
+            lcd.print(submenuNames[currentSubmenu]);
             lcd.setCursor(15, 0);
             lcd.write(2);
             lcd.setCursor(15, 1);
@@ -466,7 +466,7 @@ void navigateSettingsMenu() {
             insideMenuOption = true;
             setMatrixBrightness();
             lcd.clear();
-            lcd.print(submenuNames[currentMenu]);
+            lcd.print(submenuNames[currentSubmenu]);
             lcd.setCursor(15, 0);
             lcd.write(2);
             lcd.setCursor(15, 1);
@@ -481,7 +481,7 @@ void navigateSettingsMenu() {
             insideMenuOption = true;
             toggleSound();
             lcd.clear();
-            lcd.print(submenuNames[currentMenu]);
+            lcd.print(submenuNames[currentSubmenu]);
             lcd.setCursor(15, 0);
             lcd.write(2);
             lcd.setCursor(15, 1);
@@ -712,6 +712,10 @@ void displayGameEndedMessage() {
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print(menuNames[currentMenu]);
+      lcd.setCursor(15, 0);
+      lcd.write(2);
+      lcd.setCursor(15, 1);
+      lcd.write(3);
     }
   }
 }
