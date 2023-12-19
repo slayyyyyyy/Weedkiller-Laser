@@ -21,6 +21,8 @@ const int xPin = A0;
 const int yPin = A1;
 const int swPin = 2;
 
+const int soundPin = A4;
+
 LedControl lc = LedControl(dinPin, clockPin, loadPin, 1); 
 byte matrixBrightness = 8;
 byte xPos = 4;
@@ -162,6 +164,28 @@ byte arrowDown[] = {
   B00100
 };
 
+byte arrowRight[] = {
+  B00000,
+  B10000,
+  B01000,
+  B00100,
+  B00010,
+  B00100,
+  B01000,
+  B10000
+};
+
+byte arrowLeft[] = {
+  B00000,
+  B00001,
+  B00010,
+  B00100,
+  B01000,
+  B00100,
+  B00010,
+  B00001
+};
+
 void generateLevelMap(byte generatedMap[mapSize][mapSize], int level) {
   /* depending on the level, this functions assigns and generate the map for each level*/
   const byte* selectedLevel = nullptr;
@@ -204,6 +228,7 @@ void setMatrixState(byte state) {
 
 void setup() {
   pinMode(swPin, INPUT_PULLUP);
+  pinMode(soundPin, OUTPUT);
 
   lc.shutdown(0, false);
   lc.setIntensity(0, EEPROM.get(10, matrixBrightness));
@@ -213,6 +238,8 @@ void setup() {
   analogWrite(pwm,EEPROM.get(0,brightness));
   lcd.createChar(2, arrowUp);
   lcd.createChar(3, arrowDown);
+  lcd.createChar(4, arrowLeft);
+  lcd.createChar(5, arrowRight);
 
   displayGreeting(gameName);
   lcd.print(menuNames[currentMenu]);
@@ -392,7 +419,6 @@ void navigateMainMenu(){
     }
   }
 }
-
 
 void navigateSettingsMenu() {
   while (insideSubmenu == true) {
@@ -768,6 +794,10 @@ void setLCDBrightness() {
   lcd.print("Brightness Level");
   lcd.setCursor(1, 1);
   lcd.print("1  2  3  4  5");
+  lcd.setCursor(0, 1);
+  lcd.write(4);
+  lcd.setCursor(15, 1);
+  lcd.write(5);
 
   bool selectedBrightness = false;
   int brightnessLevels[] = {10, 25, 50, 75, 100}; // corresponding brightness levels from 1 to 5
@@ -838,6 +868,10 @@ void setMatrixBrightness() {
   lcd.print("Brightness Level");
   lcd.setCursor(1, 1);
   lcd.print("1  2  3  4  5");
+  lcd.setCursor(0, 1);
+  lcd.write(4);
+  lcd.setCursor(15, 1);
+  lcd.write(5);
 
   bool selectedMatrixBrightness = false;
   int matrixBrightnessLevels[] = {2, 4, 6, 8, 10}; // corresponding brightness levels from 1 to 5
