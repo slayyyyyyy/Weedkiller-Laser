@@ -26,3 +26,8 @@ Considering how this project was made for my robotics course, there were some re
 Aside from these, there are obviously the other requirements, regarding a clean coding style and the documentation. As of now, I am aware of a few slip ups inside this code, such as the use of delays and magic numbers.
 
 You can find photos of the setup inside the "Setup pics" directory, and the demo on how it works on here : (insert link)
+
+## Bugs
+
+- Most known bugs are caused by the noise from the ton of wires on the boards. (especially the LCD ones)
+- <u> Not really a bug but </u> the code could be cleaned up a bit because it gets very repetitive at times. (for example, the code for writing the arrow characters is in a ton of places when it could be very easily put inside a function)
