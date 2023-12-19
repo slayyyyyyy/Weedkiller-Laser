@@ -12,7 +12,7 @@ I chose to implement this tanks style game because to me it was kinda fun to pla
 
 ## Menu
 
-The menu of the game is navigated with a joystick. It contains the options to start the game, info about the creator (me), a short description of how to play and a settings submenu, from where you can adjust matrix brightness, LCD brightness and toggle the buzzer on and off (didn't implement as of now). The buzzer will make a sound for scrolling through the menu and when selecting an option.
+The menu of the game is navigated with a joystick. It contains the options to start the game, info about the creator (me), a short description of how to play and a settings submenu, from where you can adjust matrix brightness, LCD brightness and toggle the buzzer on and off. The buzzer will make a sound for scrolling through the menu and when selecting an option.
 
 ## The project requirements
 
