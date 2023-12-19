@@ -526,15 +526,15 @@ void updatePlayerPosition() {
 }
 
   // actually moves the player dot on the map
-  if (xValue < minThreshold && gameMap[(xPos + 1) % mapSize][yPos] != 1) {
-    xPos = (xPos + 1) % mapSize;
-  } else if (xValue > maxThreshold && gameMap[xPos - 1][yPos] != 1) {
-    xPos = (xPos > 0) ? xPos - 1 : mapSize - 1;
+  if (xValue < minThreshold && (xPos + 1) < mapSize && gameMap[(xPos + 1)][yPos] != 1) {
+    xPos = xPos + 1;
+  } else if (xValue > maxThreshold && (xPos - 1) >= 0 && gameMap[xPos - 1][yPos] != 1) {
+    xPos = xPos - 1;
   }
-  if (yValue < minThreshold && gameMap[xPos][(yPos - 1) % mapSize] != 1) {
-    yPos = (yPos > 0) ? yPos - 1 : mapSize - 1;
-  } else if (yValue > maxThreshold && gameMap[xPos][(yPos + 1) % mapSize] != 1) {
-    yPos = (yPos + 1) % mapSize;
+  if (yValue < minThreshold && (yPos - 1) >= 0 && gameMap[xPos][(yPos - 1)] != 1) {
+    yPos = yPos - 1;
+  } else if (yValue > maxThreshold && (yPos + 1) < mapSize && gameMap[xPos][(yPos + 1)] != 1) {
+    yPos = yPos + 1;
   }
 
 
