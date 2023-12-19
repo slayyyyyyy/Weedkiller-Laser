@@ -270,7 +270,7 @@ void printTimeAndLevel(){
     lcd.print((millis() - gameStartTime) / 1000);
     lcd.setCursor(0,1);
     lcd.print("Garden:");
-    lcd.setCursor(strlen("Level:"), 1);
+    lcd.setCursor(strlen("Garden:"), 1);
     lcd.print(level);
 }
 
